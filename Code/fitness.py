@@ -70,6 +70,10 @@ def fitness3(a, S):
 		fit = fit + score3(a._value,b._value)
 	return fit
 
+
 if "__main__" == __name__:
 	''' Code to be run if this is main '''
 	pass
+
+
+

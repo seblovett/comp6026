@@ -32,6 +32,7 @@ class resident:
 				if "1" == s[i]:
 					_value = _value + 1
 			self._value.append(_value)
+		return self._value
 	def mutate(self):
 		x = len(self._string)
 		newstrs = list()
@@ -40,10 +41,15 @@ class resident:
 			for i in range(self._size):#test each char
 				r = random.random()
 				if ( r < self._mrate): #test for mutation
-					if ( "0" == self._string[i] ): #switch the bits if we mutate
-						newstr = newstr + "1"
-					else:
+					#if ( "0" == s[i] ): #switch the bits if we mutate
+					#	newstr = newstr + "1"
+					#else:
+					#	newstr = newstr + "0"
+					r = random.random() #get a new random number
+					if ( r < 0.5 ):
 						newstr = newstr + "0"
+					else:
+						newstr = newstr + "1"
 				else:#else keep the same as before
 					newstr = newstr + s[i]
 			newstrs.append(newstr)
