@@ -1,0 +1,10 @@
+*.pyc
+*.swo
+*.swp
+*.aux
+*.bbl
+*.bib~
+*.blg
+*.log
+*.out
+*.tex~
