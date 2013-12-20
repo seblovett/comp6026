@@ -7,13 +7,15 @@ from fitness import *
 import math
 #import matplotlib.pylab  # matplotlib
 import time
-import pylab
+import random
+from datetime import datetime
 
 #Some global values
 POP_SIZE = 25
 SAMPLE_SIZE = 15
+GENERATIONS=600
 fig = None
-outfile = "data.txt"
+outfile = "data_%s.txt"
 
 def MutateAll(population):
 	'''mutates all the residents in the population'''
@@ -23,33 +25,112 @@ def MutateAll(population):
 	return population
 
 ## @brief writes the objective fitness to a csv file
-def Write(populations):
-	f = open(outfile, "a")
-	for p in populations:
+def Write(pop1, pop2):
+	fname1 = outfile % "pop1"
+	fname2 = outfile % "pop2"
+	f = open(fname1, "a")
+	for p in pop1:
+		f.write("%d," % p.value()[0])
+	f.write("\n")
+	f.close()
+	
+	f = open(fname2, "a")
+	for p in pop2:
 		f.write("%d," % p.value()[0])
 	f.write("\n")
 	f.close()
 
-## @brief plots the data as it is generated
-#  @param - x - generation 
-#  @param - y - list of all residents at that generation
-def Plot(x, y):
-	''' x should be a single number, y is list of values to residents that x value '''
-	pylab.figure(Fig.number)
-	pylab.xlabel("Generation")
-	pylab.ylabel("Objective Fitness")
-	pylab.ion()
-	y_vals = list()
-	x_vals = list()
-	for _y in y:
-		y_vals.append(_y.value()[0])
-		x_vals.append(x)
-	pylab.plot(x_vals, y_vals, 'r.') # '.' is point, ',' is pixel
-	pylab.draw()
-	pass
+try:
+	import pylab
+	
+	
+	## @brief plots the data as it is generated
+	#  @param - x - generation 
+	#  @param - y - list of all residents at that generation
+	def Plot(x, y1, y2=None):
+		''' x should be a single number, y is list of values to residents that x value '''
+		pylab.figure(Fig.number)
+		pylab.xlabel("Generation")
+		pylab.ylabel("Objective Fitness")
+		pylab.ion()
+		y_vals = list()
+		x_vals = list()
+		for _y in y1:
+			y_vals.append(_y.value()[0])
+			x_vals.append(x)
+		pylab.plot(x_vals, y_vals, 'r.') # '.' is point, ',' is pixel
+		
+		if y2:#if two populations are given, colour the second one blue. 
+			y_vals = list()
+			x_vals = list()
+			for _y in y1:
+				y_vals.append(_y.value()[0])
+				x_vals.append(x)
+			pylab.plot(x_vals, y_vals, 'b.') # '.' is point, ',' is pixel
+		pylab.draw()
+		pass
+except:
+	def Plot(x, y1, y2=None):
+		pass	
+def FPS(pop):
+	'''Fitness proportionate selection.
+	Uses roulette wheel to select a parent from the population.
+	Parent is mutated and the child is randomly replaced back into the population'''
+	#make the wheel
+	sum = 0
+	wheel=list()
+	for p in pop:
+		sum = sum + p.fitness
+		wheel.append(sum)
+	
+	#pick from the wheel
+	pick = sum * random.random()
+	for i in range(len(wheel)):
+		if wheel[i] >= pick:
+			break
+	
+	#got selected, now mutate and randomly replace
+	child = pop[i].mutate()
+	
+	pick = int(math.floor(len(pop) * random.random()))
+	pop[pick] = child
 
-#def Experiment1():
+def Experiment1():
 	#Experiment 1 - loss of gradient1
+	pop1 = list()
+	pop2 = list()
+
+	for i in range(POP_SIZE):
+		pop1.append(resident(dimensions=1))
+		pop2.append(resident(dimensions=1))
+	
+	for i in range(GENERATIONS): # repeat
+		if (i % 10) == 0:
+			print '.',
+		#plot data
+		Plot(i, pop1, pop2) #i is generation, pop1+pop2 gives all the residents in one list
+		#write data
+		Write(pop1, pop2)
+		#evaluate fitness of all individuals
+		for a in pop1: #for each member in population 1
+			#make a sample of SAMPLE_SIZE from pop2
+			sample = list()
+			for z in range(SAMPLE_SIZE):
+				i = int(math.floor(random.random() * SAMPLE_SIZE))
+				sample.append(pop2[i])
+			a.fitness = fitness(a, sample)
+		
+		for a in pop2: #for each member in population 2
+			#make a sample of SAMPLE_SIZE from pop1
+			sample = list()
+			for z in range(SAMPLE_SIZE):
+				i = int(math.floor(random.random() * SAMPLE_SIZE))
+				sample.append(pop1[i])
+			a.fitness = fitness(a, sample)
+		
+		#select and replace
+		FPS(pop1)
+		FPS(pop2)
 def Control():
 	#Control Experiment
 	pop1 = list()
@@ -65,12 +146,14 @@ def Control():
 #		Plot(i, [i, i+1, i/2.0] )
 #		print(i)
 #		time.sleep(1)
-	for i in range(600): #itterate for 600 generations
-		Plot(i, pop1 + pop2) #i is generation, pop1+pop2 gives all the residents in one list
-		Write(pop1+pop2)
+	for i in range(GENERATIONS): #itterate for n generations
+		if (i % 10) == 0:
+			print '.',
+		Plot(i, pop1, pop2) #i is generation, pop1+pop2 gives all the residents in one list
+		Write(pop1, pop2)
 		pop1 = MutateAll(pop1)
 		pop2 = MutateAll(pop2)
-
+		
 
 def Test():
 	a = resident(size = 10, dimensions = 1)
@@ -126,11 +209,24 @@ if "__main__" == __name__:
 	#clear the output data file
 	f = open(outfile, "w")
 	f.close()
-	Fig = pylab.figure()
+	#Fig = pylab.figure()
 	pop1 = list()
 	pop2 = list()
+	print("Running Control...")
+	print "Start at ", 
+	print datetime.now().time()
 	Control()
-	pylab.figure(Fig.number)
-	pylab.show()
-	raw_input()
+	print "Control Function Finished at ",
+	print datetime.now().time()
+	
+	
+	print("Running Experiment 1...")
+	print "Start at ", 
+	print datetime.now().time()
+	Experiment1()
+	print "Experiment1 Finished at ",
+	print datetime.now().time()
+	#pylab.figure(Fig.number)
+	#pylab.show()
+	#raw_input()
 
