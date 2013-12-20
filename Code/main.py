@@ -5,8 +5,9 @@
 from resident import resident
 from fitness import *
 import math
-import pylab  # matplotlib
+#import matplotlib.pylab  # matplotlib
 import time
+import pylab
 
 #Some global values
 POP_SIZE = 25
@@ -18,7 +19,7 @@ def MutateAll(population):
 	'''mutates all the residents in the population'''
 #	newpop
 	for p in population:
-		p.mutate()
+		p = p.mutate()
 	return population
 
 ## @brief writes the objective fitness to a csv file
@@ -47,7 +48,8 @@ def Plot(x, y):
 	pylab.draw()
 	pass
 
-
+#def Experiment1():
+	#Experiment 1 - loss of gradient1
 def Control():
 	#Control Experiment
 	pop1 = list()

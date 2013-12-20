@@ -53,5 +53,7 @@ class resident:
 				else:#else keep the same as before
 					newstr = newstr + s[i]
 			newstrs.append(newstr)
-		self._string = newstrs #store the new string
-		self.value() #recalculate the value
+		child = resident(self._size,self._mrate,len(self._string)) 
+		child._string = newstrs #store the new string
+		child.value() #recalculate the value
+		return child
