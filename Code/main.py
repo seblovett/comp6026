@@ -1,4 +1,4 @@
-# Python Template
+#!/usr/bin/python
 # @author hl13g10
 # @brief Main to run Assignment2 from
 
@@ -9,20 +9,31 @@ import math
 import time
 import random
 from datetime import datetime
+import pylab
 
 #Some global values
 POP_SIZE = 25
-SAMPLE_SIZE = 15
+SAMPLE_SIZE = 1
 GENERATIONS=600
 fig = None
 outfile = "data_%s.txt"
 
 def MutateAll(population):
 	'''mutates all the residents in the population'''
+	#randomly mutate one individual
+#	i = int(math.floor(random.random()))*POP_SIZE
+#	population[i]._string = population[i].mutate()
+#	population[i].value() #recalculate it's value
+#	return population
 #	newpop
 	for p in population:
-		p = p.mutate()
+		p._string = p.mutate()
+		p.value() #reassess it's value
 	return population
+#	newpop = list()
+#	for p in population:
+#		newpop.append(p.mutate())
+#	return newpop
 
 ## @brief writes the objective fitness to a csv file
 def Write(pop1, pop2):
@@ -40,38 +51,31 @@ def Write(pop1, pop2):
 	f.write("\n")
 	f.close()
 
-try:
-	import pylab
+## @brief plots the data as it is generated
+#  @param - x - generation 
+#  @param - y - list of all residents at that generation
+def Plot(x, y1, y2=None):
+	''' x should be a single number, y is list of values to residents that x value '''
+#	pylab.figure(fig.number)
+	pylab.xlabel("Generation")
+	pylab.ylabel("Objective Fitness")
+	#pylab.ion()
+	y_vals = list()
+	x_vals = list()
+	for _y in y1:
+		y_vals.append(_y.value()[0])
+		x_vals.append(x)
+	pylab.plot(x_vals, y_vals, 'b,') # '.' is point, ',' is pixel
 	
-	
-	## @brief plots the data as it is generated
-	#  @param - x - generation 
-	#  @param - y - list of all residents at that generation
-	def Plot(x, y1, y2=None):
-		''' x should be a single number, y is list of values to residents that x value '''
-		pylab.figure(Fig.number)
-		pylab.xlabel("Generation")
-		pylab.ylabel("Objective Fitness")
-		pylab.ion()
+	if y2:#if two populations are given, colour the second one blue. 
 		y_vals = list()
 		x_vals = list()
 		for _y in y1:
 			y_vals.append(_y.value()[0])
 			x_vals.append(x)
-		pylab.plot(x_vals, y_vals, 'r.') # '.' is point, ',' is pixel
-		
-		if y2:#if two populations are given, colour the second one blue. 
-			y_vals = list()
-			x_vals = list()
-			for _y in y1:
-				y_vals.append(_y.value()[0])
-				x_vals.append(x)
-			pylab.plot(x_vals, y_vals, 'b.') # '.' is point, ',' is pixel
-		pylab.draw()
-		pass
-except:
-	def Plot(x, y1, y2=None):
-		pass	
+		pylab.plot(x_vals, y_vals, 'b.') # '.' is point, ',' is pixel
+	#pylab.draw()
+	pass
 def FPS(pop):
 	'''Fitness proportionate selection.
 	Uses roulette wheel to select a parent from the population.
@@ -88,12 +92,14 @@ def FPS(pop):
 	for i in range(len(wheel)):
 		if wheel[i] >= pick:
 			break
-	
+	 	
 	#got selected, now mutate and randomly replace
-	child = pop[i].mutate()
+	newstring = pop[i].mutate()
 	
 	pick = int(math.floor(len(pop) * random.random()))
-	pop[pick] = child
+	pop[pick]._string = newstring
+	pop[pick].value()
+	return pop
 
 def Experiment1():
 	#Experiment 1 - loss of gradient1
@@ -108,7 +114,7 @@ def Experiment1():
 		if (i % 10) == 0:
 			print '.',
 		#plot data
-		Plot(i, pop1, pop2) #i is generation, pop1+pop2 gives all the residents in one list
+		Plot(i, pop1 + pop2) #i is generation, pop1+pop2 gives all the residents in one list
 		#write data
 		Write(pop1, pop2)
 		#evaluate fitness of all individuals
@@ -116,7 +122,7 @@ def Experiment1():
 			#make a sample of SAMPLE_SIZE from pop2
 			sample = list()
 			for z in range(SAMPLE_SIZE):
-				i = int(math.floor(random.random() * SAMPLE_SIZE))
+				i = int(math.floor(random.random() * POP_SIZE))
 				sample.append(pop2[i])
 			a.fitness = fitness(a, sample)
 		
@@ -124,13 +130,13 @@ def Experiment1():
 			#make a sample of SAMPLE_SIZE from pop1
 			sample = list()
 			for z in range(SAMPLE_SIZE):
-				i = int(math.floor(random.random() * SAMPLE_SIZE))
-				sample.append(pop1[i])
+				i = int(math.floor(random.random() * POP_SIZE))#pick one from the population
+				sample.append(pop1[i])#
 			a.fitness = fitness(a, sample)
 		
 		#select and replace
-		FPS(pop1)
-		FPS(pop2)
+		pop1 = FPS(pop1)
+		pop2 = FPS(pop2)
 def Control():
 	#Control Experiment
 	pop1 = list()
@@ -149,7 +155,7 @@ def Control():
 	for i in range(GENERATIONS): #itterate for n generations
 		if (i % 10) == 0:
 			print '.',
-		Plot(i, pop1, pop2) #i is generation, pop1+pop2 gives all the residents in one list
+		Plot(i, pop1 + pop2) #i is generation, pop1+pop2 gives all the residents in one list
 		Write(pop1, pop2)
 		pop1 = MutateAll(pop1)
 		pop2 = MutateAll(pop2)
@@ -209,7 +215,7 @@ if "__main__" == __name__:
 	#clear the output data file
 	f = open(outfile, "w")
 	f.close()
-	#Fig = pylab.figure()
+	#fig = pylab.figure()
 	pop1 = list()
 	pop2 = list()
 	print("Running Control...")
@@ -218,14 +224,17 @@ if "__main__" == __name__:
 	Control()
 	print "Control Function Finished at ",
 	print datetime.now().time()
+	pylab.savefig("control.png")
 	
-	
+	SAMPLE_SIZE = 1
+	fig = pylab.figure()
 	print("Running Experiment 1...")
 	print "Start at ", 
 	print datetime.now().time()
 	Experiment1()
 	print "Experiment1 Finished at ",
 	print datetime.now().time()
+	pylab.savefig("Experiment1.png")
 	#pylab.figure(Fig.number)
 	#pylab.show()
 	#raw_input()

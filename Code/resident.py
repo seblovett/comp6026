@@ -1,5 +1,5 @@
-# Python Template
-# @author seblovett
+#!/usr/bin/python
+# @author hl13g10
 # @brief A class to dictate the behaviour of an invidiual
 import random
 
@@ -14,13 +14,13 @@ class resident:
 		self._mrate = mutationrate
 		random.seed()
 		for x in range(dimensions):
-			_string = ""
-			for i in range(self._size):
-				r = random.random()
-				if ( r < 0.5 ):
-					_string = _string+"1"
-				else:
-					_string = _string+"0"
+			_string = "0"*size
+		#	for i in range(self._size):
+		#		r = random.random()
+		#		if ( r < 0.5 ):
+		#			_string = _string+"1"
+		#		else:
+		#			_string = _string+"0"
 			self._string.append(_string)
 		self.value() #get the value
 
@@ -53,7 +53,10 @@ class resident:
 				else:#else keep the same as before
 					newstr = newstr + s[i]
 			newstrs.append(newstr)
-		child = resident(self._size,self._mrate,len(self._string)) 
-		child._string = newstrs #store the new string
-		child.value() #recalculate the value
-		return child
+	#	child = resident(self._size,self._mrate,len(self._string)) 
+	#	child._string = newstrs #store the new string
+	#	child.value() #calculate the value
+	#	return child
+		#self._string = newstrs
+		#self.value()
+		return newstrs
