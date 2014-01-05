@@ -80,6 +80,8 @@ def InitWrite():
 	data_c_l = list()
 	data_s_s = list()
 	data_s_l = list()
+	large = list()
+	selfish = list()
 
 ## @brief Writes the pool data to a text file and stores to list for plotting
 #  @param pool - the pool to write
