@@ -2,8 +2,8 @@
 %\usepackage[nodayofweek]{datetime}
 \usepackage{natbib} 
 \usepackage{graphicx}
-\usepackage{caption}
-\usepackage{subcaption}
+%\usepackage{caption}
+%\usepackage{subcaption}
 
 
 
@@ -58,14 +58,14 @@ An extension to this work is covered in section \ref{sc:extension}, the results 
 
 %How individuals were represented
 This experiment used individuals with two genotypes, giving four possible combinations of individual.
-The genotypes were whether the individual prefered small or large groups, and whether it was selfish or cooperative.
-The four possible combintation therefore were: cooperative \& small, selfish \& small, cooperative \& large, selfish \& large. 
+The genotypes were whether the individual preferred small or large groups, and whether it was selfish or cooperative.
+The four possible combination therefore were: cooperative \& small, selfish \& small, cooperative \& large, selfish \& large. 
 
 In the reimplementation, an individual was not explicitly represented. 
 Instead, a list of four values was used to store the total number of each genotype. 
 This was used for both the migrant pool and the groups. 
 
-Initialisation was done exactly propotionatly. Each genotype was assigned $N / 4$ number of individuals.
+Initialisation was done exactly proportionately. Each genotype was assigned $N / 4$ number of individuals.
 
 %Group allocation
 During each generation, the migrant pool was split down into as many small groups as possible.
@@ -75,7 +75,7 @@ Only full groups were allowed and any members left over from group allocation we
 These groups were then allocated resources and allowed to grow. 
 
 %Resource equation \& explanation
-Resources were allocated to each genotype propotionatly,The assumed knowledge is difficult to gauge given the amount depending on their genotype.
+Resources were allocated to each genotype proportionately,The assumed knowledge is difficult to gauge given the amount depending on their genotype.
 This was done using equation \eqref{eq:resource}. 
 It is biased to allocate more resource to the selfish genotype ($0.02 \times 0.2 > 0.018 \times 0.1$). 
 R also changes depending on the group size - small groups have limited resources to encourage cooperation, and large groups have more resource per captia.
@@ -116,44 +116,25 @@ As the consumption for a cooperative genotype is lower, this is biased to grow t
 \end{table}
 
 \section{Comparison of results}\label{sc:reimp:results}
+
 \begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.4\textwidth}
-                \includegraphics[width=0.4\textwidth]{orig_a.png}
-                \caption{The original results from \cite{powers2007individual}.}
-                \label{fig:orig:A}
-        \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.4\textwidth}
-                \includegraphics[width=0.4\textwidth]{Code2/fig1.png}
-                \caption{Reproduced results.}
-                \label{fig:orig:B}
-        \end{subfigure}
-        \caption{Average environment and strategy through time.}\label{fig:A}
+\centering     %%% not \center
+\subfigure[The original results from \cite{powers2007individual}.]{\label{fig:orig:A}\includegraphics[width=60mm]{orig_a.png}}
+\subfigure[Reproduced results.]{\label{fig:rep:A}\includegraphics[width=60mm]{Code2/fig2.png}}
+\caption{Average environment and strategy through time.}\label{fig:A}
 \end{figure}
 
 \begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.4\textwidth}
-                \includegraphics[width=\textwidth]{orig_b.png}
-                \caption{The original results from \cite{powers2007individual}.}
-                \label{fig:rep:A}
-        \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.4\textwidth}
-                \includegraphics[width=\textwidth]{Code2/fig2.png}
-                \caption{Reproduced results.}
-                \label{fig:rep:B}
-        \end{subfigure}
-        \caption{Change in genotype frequencies over time.}\label{fig:B}
+\centering     %%% not \center
+\subfigure[The original results from \cite{powers2007individual}.]{\label{fig:orig:B}\includegraphics[width=0.45\textwidth]{orig_b.png}}
+\subfigure[Reproduced results.]{\label{fig:rep:B}\includegraphics[width=0.45\textwidth]{Code2/fig1.png}}
+\caption{Change in genotype frequencies over time.}\label{fig:B}
 \end{figure}
 
 The reproduced results were found to be very close to the original data. 
-Figure \ref{fig:B} shows the proportion of each genotype in the population.
+Figure \ref{fig:B} shows the proportions of each genotype in the population.
 In both graphs, the cooperators in the large group get immediately out competed by the selfish, and are then pushed to extinction.
-The numbers of large selfish then begin to diminish and both small genotypes increase before the cooperative small genotype excells and results in being the entire of the population.
+The numbers of large selfish then begin to diminish and both small genotypes increase before the cooperative small genotype excels and results in being the entire of the population.
 The population reached a steady state by 100 generations.
 
 Figure \ref{fig:A} shows the proportions of the strategies. 
@@ -169,9 +150,9 @@ The middle group contains all genotypes in the pool in the same proportions.
 As before, an individual may only exist in one group. 
 If it is in a middle group, then it cannot be in a small or large group.
 
-The main parameters remain unchanged (apart from the number of generations, which was incresed to 200) from \cite{powers2007individual}.
+The main parameters remain unchanged (apart from the number of generations, which was increased to 200) from \cite{powers2007individual}.
 This experiment set out to find when, if at all, the small cooperators were out competed by another genotype.
-It is predicted that the large selfish genotype will take advantage of this middle group once a large enough proporiton of the population is placed in this.
+It is predicted that the large selfish genotype will take advantage of this middle group once a large enough proportion of the population is placed in this.
 
 NEED TO CITE SOME STUFF.
 
@@ -214,76 +195,46 @@ This is assumed to be noise as no explicit checking was done to verify the popul
 
 \begin{figure}
  \centering
- \includegraphics{Code2/extresults.png}
+ \includegraphics[width=0.6\textwidth]{Code2/extresults.png}
  \caption{A sweep of the proportion of the population allocated into medium sized groups.}
  \label{fig:extresult}
 \end{figure}
 
 The graphs in figure \ref{fig:ext:manyresults} show some of the populations in some of the simulations. 
-The two graphs, \ref{fig:ext:6:c} and \ref{fig:ext:6:s} show two different outcomes for the same $M_{proportion}$ value. 
+The two graphs, \ref{fig:ext:06:c} and \ref{fig:ext:06:s} show two different outcomes for the same $M_{proportion}$ value. 
 
 \begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.4\textwidth}
-                \includegraphics[width=\textwidth]{Code2/mprop_05.png}
-                \caption{Middle Proporiton = 0.05}
-                \label{fig:rep:5}
-        \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.4\textwidth}
-                \includegraphics[width=\textwidth]{Code2/mprop_06.png}
-                \caption{Middle Proporiton = 0.06 where the small cooperative wins.}
-                \label{fig:ext:6:c}
-        \end{subfigure}
-        
-        \begin{subfigure}[b]{0.4\textwidth}
-                \includegraphics[width=\textwidth]{Code2/mprop_06_selfish.png}
-                \caption{Middle Proporiton = 0.06 where the large selfish wins.}
-                \label{fig:ext:6:s}
-        \end{subfigure}
-        ~
-        \begin{subfigure}[b]{0.4\textwidth}
-                \includegraphics[width=\textwidth]{Code2/mprop_24.png}
-                \caption{Middle Proporiton = 0.24. The large selfish genotype wins outright.}
-                \label{fig:ext:24}
-        \end{subfigure}
-        \caption{Proporiton of genotypes in simulations with varying proportions in the middle group.}\label{fig:ext:manyresults}
+\centering     %%% not \center
+\subfigure[Middle Proportion = 0.05]{\label{fig:ext:5}\includegraphics[width=0.45\textwidth]{Code2/mprop_05.png}}
+\subfigure[Middle Proportion = 0.06 where the small cooperative wins.]{\label{fig:ext:06:c}\includegraphics[width=0.45\textwidth]{Code2/mprop_06.png}}
+\subfigure[Middle Proportion = 0.06 where the large selfish wins.]{\label{fig:ext:06:s}\includegraphics[width=0.45\textwidth]{Code2/mprop_06_selfish.png}}
+\subfigure[Middle Proportion = 0.24. The large selfish genotype wins outright.]{\label{fig:ext:24}\includegraphics[width=0.45\textwidth]{Code2/mprop_05.png}}
+\caption{Proportion of genotypes in simulations with varying proportions in the middle group.}\label{fig:ext:manyresults}
 \end{figure}
+
+
+
 
 \section{Conclusion}\label{sc:conclusion}
 
-What I have done
 This paper covered the reimplementation of the work in \cite{powers2007individual}. 
 The implemented code was then shown to match the results expected and this then provided a platform to extend this work. 
 The extension investigated set out look at creating more groups as a step towards making a fully continuous simulation.
 This was done by adding a middle group, for all genotypes being able to be a part of. 
-A proporiton of the pool was then allocated into these middle sized groups before allocating to the small and large sized groups.
+A proportion of the pool was then allocated into these middle sized groups before allocating to the small and large sized groups.
 
 It was predicted that the selfish gene would eventually take over the population as it would make use of being a defector in the middle sized group. 
 This was found to be correct, as at about 0.06\% of the population in the middle group, the selfish genotype won the majority of the simulations.
 
 %Further work - make it continuous
-However, this work still discretises the groups. 
+However, this work still creates discrete groups. 
 Future work could improve this to have more groups, or even implement groups of many different sizes.
 
 
 \bibliographystyle{apalike}
 \bibliography{bibliography}
  
- \lstdefinelanguage{Python}{
- keywords={typeof, null, catch, switch, in, int, str, float, self},
- keywordstyle=\color{ForestGreen}\bfseries,
- ndkeywords={boolean, throw, import},
- ndkeywords={return, class, if ,elif, endif, while, do, else, True, False , catch, def},
- ndkeywordstyle=\color{BrickRed}\bfseries,
- identifierstyle=\color{black},
- sensitive=false,
- comment=[l]{\#},
- morecomment=[s]{/*}{*/},
- commentstyle=\color{purple}\ttfamily,
- stringstyle=\color{red}\ttfamily,
-}
+
 
  \clearpage
  \section{Code}
