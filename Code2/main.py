@@ -1,25 +1,25 @@
 #!/usr/bin/python
 # COMP6026
-# @author seblovett
-# @brief 
+# @author hl13g10
+# @brief reimplementation of Powers (2007) work for COMP6026 coursework
 import math
 import random
 import pylab
 outfile = "pool.txt"
 fig = pylab.figure()
 ## Globals
-K = 0.1
-R_small = 4.0
-R_large = 50.0
-Gc = 0.018
-Gs = 0.02
-Cc = 0.1
-Cs = 0.2
-N = 4000
-N_large = 40
-N_small = 4
-T = 120#00
-t = 4
+K = 0.1 ## Global Death rate
+R_small = 4.0 ## Resources for a small group
+R_large = 50.0 ## Resources for a large group
+Gc = 0.018 ## Growth rate for a cooperator
+Gs = 0.02 ## Growth rate for selfish
+Cc = 0.1 ## Consumption rate for a cooperator
+Cs = 0.2 ## Consumption rate for selfsih
+N = 4000 ## Population size
+N_large = 40 ## Number of individuals in a large group
+N_small = 4 ## Number of individuals in a small group
+T = 120 ## Number of generations
+t = 4 ## Number of time steps in groups
 
 #The numbers will be stored in a list, these are the Indexs for each genotype
 NUM_GENO = 4
@@ -28,18 +28,20 @@ COOP_LG = 1
 SELF_SM = 2
 SELF_LG = 3
 
+#Some global lists for storing some data in to plot later.
 data_c_s = list()
 data_c_l = list()
 data_s_s = list()
 data_s_l = list()
 large = list()
 selfish = list()
+
 ## @brief Calculated the resources allocated to each genotype.
 #  @param - the group to use
 #  @retval - The resources allocated
 #  Resources are allocated using the following formula
 #  \f[
-#	r_i = \frac{ n_i . G_i . C_i }{\Sigma (n_j . G_j . C_j )} . R 
+# r_i = \frac{ n_i . G_i . C_i }{\sum\limits_j (n_j . G_j . C_j )} . R 
 #  \f]
 def Resource(group, R):
 
@@ -69,7 +71,7 @@ def GrowPopulation(group, resource):
 	group[SELF_SM] = (group[SELF_SM] + ( resource[SELF_SM] / Cs ) - K * group[SELF_SM])
 	group[SELF_LG] = (group[SELF_LG] + ( resource[SELF_LG] / Cs ) - K * group[SELF_LG])
 	return group
-
+## @brief Inialises the global lists and clears the output file
 def InitWrite():
 	f = open(outfile, 'w')
 	f.write("COOP_SM,COOP_LG,SELF_SM,SELF_LG\n")
@@ -78,7 +80,8 @@ def InitWrite():
 	data_c_l = list()
 	data_s_s = list()
 	data_s_l = list()
-## @brief Writes the pool data to a text file
+
+## @brief Writes the pool data to a text file and stores to list for plotting
 #  @param pool - the pool to write
 def WriteData(pool):
 	f = open(outfile, 'a')
@@ -93,30 +96,7 @@ def WriteData(pool):
 	pass
 
 
-## @brief plots the data as it is generated
-#  @param - x - generation
-#  @param - y - list of all residents at that generation
-def InitPlot():
-        pylab.figure(fig.number)
-        pylab.xlabel("Generation")
-        pylab.ylabel("Number of genotype")
-	pylab.legend(loc='lower right')
-#def Plot(x, y):
-#        ''' x should be a single number, y is list of values to residents that x value '''
-#        pylab.figure(fig.number)
-#        pylab.ion()
-#        y_vals = list()
-#        x_vals = list()
-#        print data_c_s
-#        pylab.xlabel("Generation")
-#        pylab.ylabel("Number of genotype")
-#        pylab.plot(x, data_c_s, 'b.', label="Co-op Small") # '.' is point, ',' is pixel
-#        pylab.plot(x, data_c_l, 'k.', label="Co-op Large") # '.' is point, ',' is pixel
-#        pylab.plot(x, data_s_s, 'g.', label="Selfish Small") # '.' is point, ',' is pixel
-#        pylab.plot(x, data_s_l, 'r.', label="Selfish Large") # '.' is point, ',' is pixel
-#	pylab.legend(loc='upper left')
-#        pylab.draw()
-#        pass
+## @brief plots the data in the global lists.
 def PlotAll():
         pylab.figure(fig.number)
         pylab.xlabel("Generation")
@@ -139,19 +119,10 @@ def PlotAll():
 	pylab.legend(loc='upper right')
 	pylab.show()
 	pylab.draw()
-if "__main__" == __name__:
-	#initialise an equally distributed population
-	InitWrite()
-	#InitPlot()
-	pool = list()
-	for i in range(NUM_GENO):
-		pool.append( float(N / NUM_GENO ) )
-	print pool
-	#WriteData(pool)
-	#r = Resource(pool)
-	#print r
-	#pool = GrowPopulation(pool, r)
-	#print pool
+	pass
+
+## @brief some testing to check things work
+def Test():
 	test = [6.0,8.0,12.0,14.0]
 	r = Resource(test, R_large)
 	print ("Group :")
@@ -163,69 +134,29 @@ if "__main__" == __name__:
 	print test
 	raw_input()
 	pass
+## @brief main function.
+#  Executes the stages of the GA. 
+if "__main__" == __name__:
+	#initialise an equally distributed population
+	InitWrite()
+	pool = list()
+	for i in range(NUM_GENO):
+		pool.append( float(N / NUM_GENO ) )
+	print pool
+	#WriteData(pool)
+	#r = Resource(pool)
+	#print r
+	#pool = GrowPopulation(pool, r)
+	#print pool
 	for g in range(T):
 		print("GENERATION %d" % g)
 		WriteData(pool)
 		#Group formation
-#		largegroups = list()
-#		#make large groups
-#		lg = pool[COOP_LG] + pool[SELF_LG]
-#		p_coop = pool[COOP_LG] / lg
-#		print("lg = %d" % lg)
-##		while lg >= N_large:#while there are enough large left
-#		for i in range(int(lg / N_large)):
-#			group = list()
-#			group = [0.0]*NUM_GENO
-#			for i in range(N_large):
-#				if (random.random() < p_coop):#choose a coop
-#					if 0 < pool[COOP_LG]:
-#						group[COOP_LG] += 1
-#						pool[COOP_LG]  -= 1
-#					else:#no coops left in pool
-#						group[SELF_LG] += 1
-#						pool[SELF_LG]  -= 1
-#				else: #choose a selfish
-#					if 0 < pool[SELF_LG]:
-#						group[SELF_LG] += 1
-#						pool[SELF_LG]  -= 1
-#					else:#no selfish left in pool
-#						group[COOP_LG] += 1
-#						pool[COOP_LG]  -= 1
-#			largegroups.append(group)
-##			lg = pool[COOP_LG] + pool[SELF_LG]
-#		#make small groups
-#		smallgroups = list()
-#		sm = pool[COOP_SM] + pool[SELF_SM]
-#		p_coop = pool[COOP_SM] / sm
-##		while sm >= N_small:#while there are enough large left
-#		for i in range(int(sm / N_small)):
-#			group = list()
-#			group = [0.0]*NUM_GENO
-#			for i in range(N_small):
-#				if (random.random() < p_coop):#choose a coop
-#					if 0 != pool[COOP_SM]:
-#						group[COOP_SM] += 1
-#						pool[COOP_SM]  -= 1
-#					else:#no coops left in pool
-#						group[SELF_SM] += 1
-#						pool[SELF_SM]  -= 1
-#				else: #choose a selfish
-#					if 0 < pool[SELF_SM]:
-#						group[SELF_SM] += 1
-#						pool[SELF_SM]  -= 1
-#					else:#no selfish left in pool
-#						group[COOP_SM] += 1
-#						pool[COOP_SM]  -= 1
-#			smallgroups.append(group)
-#			sm = pool[COOP_SM] + pool[SELF_SM]
-
-		#make groups
 		smallgroups = list()
 		largegroups = list()
 		#number of groups
 		sm = int((pool[COOP_SM] + pool[SELF_SM]) / N_small)
 		lg = int((pool[COOP_LG] + pool[SELF_LG]) / N_large)
-		
 		#calculate proportions
 		if sm:#if we have any small groups to make
 			p_sm_coop = pool[COOP_SM] / ( pool[COOP_SM] + pool[SELF_SM])
@@ -247,34 +178,8 @@ if "__main__" == __name__:
 					else:
 						group[SELF_LG] += 1
 				largegroups.append(group)
-		if 0 == g:		
-			print("Large Groups")
-			print largegroups
-			total = [0,0,0,0]
-			for group in largegroups:
-				for i in range(len(group)):
-					total[i] += group[i]
-			print total
-			print("NumLG = %d" % len(largegroups))
-			print("Small Groups")
-			print smallgroups
-			total = [0]*4
-			for group in smallgroups:
-				for i in range(len(group)):
-					total[i] += group[i]
-			print total
-			print("NumSM = %d" % len(smallgroups))
-			raw_input()
-		#Reproduction
-#		for _t in range(t): #for number of pool steps
-#			for group in largegroups:
-#				rl = Resource(group, R_large)
-#				GrowPopulation(group, rl)
-#			for group in smallgroups:
-#				rs = Resource(group, R_small)
-#				GrowPopulation(group, rs)
-
-
+		
+		#Reproduction and resource allocation for allowed timesteps
 		for group in largegroups:
 			for _t in range(t):
 				rl = Resource(group, R_large)
@@ -296,10 +201,6 @@ if "__main__" == __name__:
 			pool[i] = ((pool[i] * scale))
 		print("Pool Size after scale = %d" % sum(pool))
 		
-		#raw_input()
-		#store the data
-		#Plot(g, pool)
-		#WriteData(pool)
 	#end for T
 	PlotAll()
 	print("DONE!")
