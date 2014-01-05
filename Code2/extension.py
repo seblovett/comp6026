@@ -25,7 +25,7 @@ t = 4 ## Number of time steps in groups
 
 
 #Extension parameters
-M_Proportion = 0.1
+M_Proportion = 0.05
 N_med = 22
 R_med = 27
 #The numbers will be stored in a list, these are the Indexs for each genotype
@@ -132,16 +132,6 @@ def PlotAll():
 	#pylab.legend(loc='lower right')
 	pylab.show()
         pylab.draw()
-
-	#pylab.figure()
-#	pylab.xlabel("Generation")
-#	pylab.ylabel("Global frequency")
-#	pylab.plot(x, large, 'k:', label="Large Group Size")
-#	pylab.plot(x, selfish, 'k-', label="Selfish resource usage")
-#	pylab.legend(loc='upper right')
-#	pylab.show()
-#	pylab.draw()
-#	pass
 
 ## @brief some testing to check things work
 def Test():
@@ -251,7 +241,7 @@ def Run():
 		#print("Pool Size after scale = %d" % sum(pool))
 		
 	#end for T
-	#PlotAll()
+	PlotAll()
 	#print("DONE!")
 	winner = max(pool)#return the winner
 	for i in range(len(pool)):
@@ -265,7 +255,7 @@ if "__main__" == __name__:
 	res_file = open(result_filename, 'w')
 	res_file.write("M_Prop,CS,CL,SS,SL\n")
 	results = list()
-	proportions = range(25)
+	proportions = range(100)
 	global M_Proportion
 	for i in range(len(proportions)):
 		proportions[i] /= 100.0
