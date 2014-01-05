@@ -170,4 +170,24 @@ The results obtained from the extension proved to be a very close replication to
 \bibliographystyle{apalike}
 \bibliography{bibliography}
  
+ \lstdefinelanguage{Python}{
+ keywords={typeof, null, catch, switch, in, int, str, float, self},
+ keywordstyle=\color{ForestGreen}\bfseries,
+ ndkeywords={boolean, throw, import},
+ ndkeywords={return, class, if ,elif, endif, while, do, else, True, False , catch, def},
+ ndkeywordstyle=\color{BrickRed}\bfseries,
+ identifierstyle=\color{black},
+ sensitive=false,
+ comment=[l]{\#},
+ morecomment=[s]{/*}{*/},
+ commentstyle=\color{purple}\ttfamily,
+ stringstyle=\color{red}\ttfamily,
+}
+
+ \clearpage
+ \section{Code}
+ \lstset{language=Python} 
+ \subsection{main.py}
+ \lstinputlisting[language=Python,caption=Reimplementation of \cite{powers2007individual}]{Code2/main.py}
+
 \end{document}
