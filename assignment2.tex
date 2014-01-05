@@ -14,9 +14,10 @@
  
 \section{Introduction}
 
-In an evolutionary sense, being selfish is advantageous \cite{} as an individual can reap the benefits of being in a group without any contribution.
-A basic example of this is the Prisoner's Dilemma \cite{}.
-However, in nature, cooperation is common. 
+Group selection encounters many problems, one of which is that selfish behaviour is more commonly prefered \cite{powers2012efficacy}.
+Selfish behaiour is overall detrimental to a group.
+The Prisoner's dilemma is an example of how selfish behaviour benefits an individual \cite{axelrod1987evolution}. 
+However, in nature, cooperation is common \citep{szathmary1995major}. 
 This then raises the question of why cooperation exists. 
 
 In \cite{powers2007individual}, a situation was set up with selfish and cooperative individuals.
@@ -27,18 +28,19 @@ A small group had less resources per captia than the large group.
 
 In each generation, the pool was split into as many small and large groups as possible and allocated resources.
 The numbers of the genotypes were then allowed to grow. 
+This method has been shown by \cite{wilson1975theory} to purge selfish individuals. 
+\cite{powers2007individual} showed that the genotype of small cooperators flourished and became the only genotype in the population. 
 
-By doing this, it was shown that the genotype of small cooperators flourished and became the only genotype in the population. 
-
-
-%Describe paper/experiment.
-%Game theory game - defectors win CITE
 
 This paper discusses the reimplementation of the experiment \cite{powers2007individual} and a comparison of results in sections \ref{sc:reimplementation} and \ref{sc:reimp:results}.
 An extension to this work is covered in section \ref{sc:extension}, the results of which are shown in section \ref{sc:results} and section \ref{sc:conclusion} concludes the paper.
 
 
 \section{Reimplementation}\label{sc:reimplementation}
+
+The parameters used were taken from \cite{powers2007individual} and can be seen in table \ref{table:params}.
+To implement the experiment, the following psuedocode was used:
+
 \begin{itemize}
  \item Initialise
  \item for number of generations:
@@ -52,9 +54,28 @@ An extension to this work is covered in section \ref{sc:extension}, the results 
   \item Reform migrant pool
   \item Scale migrant pool
  \end{itemize}
-
 \end{itemize}
 
+\begin{table}[b]
+\centering
+ \caption{Parameters used in the reimplementation}
+ \label{table:params}
+ \begin{tabular}{|c|c|}\hline
+ Parameter, $symbol$ & value \\ \hline
+  Cooperative consumption rate, $C_c$	&	$0.1$		\\ 
+  Selfish consumption rate, $C_s$	&	$0.2$		\\ 
+  Cooperative growth rate, $G_c$	&	$0.018$		\\ 
+  Selfish growth rate, $G_s$		&	$0.02$		\\ 
+  Population size, $N$			&	$4000$		\\ 
+  Small group size, $N\_small$		&	$4$		\\ 
+  Large group size, $N\_large$		&	$40$		\\ 
+  Number of generations, $N$		&	$120$		\\ 
+  Number of timesteps, $t$		&	$4$		\\ 
+  Resource for small groups, $R_{small}$&	$4$		\\ 
+  Resource for large groups, $R_{large}$&	$50$		\\ 
+  Death rate, $K$			&	$0.1$		\\ \hline
+ \end{tabular}
+\end{table}
 
 %How individuals were represented
 This experiment used individuals with two genotypes, giving four possible combinations of individual.
@@ -95,32 +116,14 @@ As the consumption for a cooperative genotype is lower, this is biased to grow t
  \label{eq:growth}
 \end{equation}
 
-\begin{table}
- \begin{tabular}{|c|c|}\hline
- Parameter, $symbol$ & value \\ \hline
-  Cooperative consumption rate, $C_c$	&	$0.1$		\\ \hline
-  Selfish consumption rate, $C_s$	&	$0.2$		\\ \hline
-  Cooperative growth rate, $G_c$	&	$0.018$		\\ \hline
-  Selfish growth rate, $G_s$		&	$0.02$		\\ \hline
-  Population size, $N$			&	$4000$		\\ \hline
-  Small group size, $N\_small$		&	$4$		\\ \hline
-  Large group size, $N\_large$		&	$40$		\\ \hline
-  Number of generations, $N$		&	$120$		\\ \hline
-  Number of timesteps, $t$		&	$4$		\\ \hline
-  Resource for small groups, $R_{small}$&	$4$		\\ \hline
-  Resource for large groups, $R_{large}$&	$50$		\\ \hline
-  Death rate, $K$			&	$0.1$		\\ \hline
- \end{tabular}
- \caption{Parameters used in the reimplementation}
- \label{table:params}
-\end{table}
+
 
 \section{Comparison of results}\label{sc:reimp:results}
 
 \begin{figure}
 \centering     %%% not \center
-\subfigure[The original results from \cite{powers2007individual}.]{\label{fig:orig:A}\includegraphics[width=60mm]{orig_a.png}}
-\subfigure[Reproduced results.]{\label{fig:rep:A}\includegraphics[width=60mm]{Code2/fig2.png}}
+\subfigure[The original results from \cite{powers2007individual}.]{\label{fig:orig:A}\includegraphics[width=0.45\textwidth]{orig_a.png}}
+\subfigure[Reproduced results.]{\label{fig:rep:A}\includegraphics[width=0.45\textwidth]{Code2/fig2.png}}
 \caption{Average environment and strategy through time.}\label{fig:A}
 \end{figure}
 
@@ -146,17 +149,12 @@ The results obtained from the extension proved to be a very close replication to
 
 Discrete groups do not always occur in nature.
 The extension covered here adds a third middle group to the experiment. 
-The middle group contains all genotypes in the pool in the same proportions.
-As before, an individual may only exist in one group. 
-If it is in a middle group, then it cannot be in a small or large group.
+The middle group contains all genotypes in similar proportions of the genotypes in the pool.
+As before, the individuals may only exist in one group during the group phase. 
 
 The main parameters remain unchanged (apart from the number of generations, which was increased to 200) from \cite{powers2007individual}.
 This experiment set out to find when, if at all, the small cooperators were out competed by another genotype.
 It is predicted that the large selfish genotype will take advantage of this middle group once a large enough proportion of the population is placed in this.
-
-NEED TO CITE SOME STUFF.
-
-
 
 %why I am doing this extension
 
@@ -167,10 +165,11 @@ This was done to keep the same amount of resource per captia in the group.
 The final parameter was the parameter under test - the proportion of the population that was placed in the medium sized group.
 The parameters are summarised in table \ref{table:extparams}. 
 
-\begin{table}
+\begin{table}[b]
+\centering
  \caption{The extra parameters used to implement the extension}
  \label{table:extparams}
- \begin{tabular}{|c|c|}
+ \begin{tabular}{|c|c|}\hline
   Parameter, $symbol$ & value \\ \hline 
   Proportion of population in middle group, $M_{proportion}$ & $0.0 - 0.24$ \\ 
   Medium group size, $N_{med}$ & $22$ \\
