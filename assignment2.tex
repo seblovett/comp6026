@@ -97,6 +97,7 @@ As the consumption for a cooperative genotype is lower, this is biased to grow t
 
 \begin{table}
  \begin{tabular}{|c|c|}\hline
+ Parameter, $symbol$ & value \\ \hline
   Cooperative consumption rate, $C_c$	&	$0.1$		\\ \hline
   Selfish consumption rate, $C_s$	&	$0.2$		\\ \hline
   Cooperative growth rate, $G_c$	&	$0.018$		\\ \hline
@@ -162,11 +163,71 @@ The results obtained from the extension proved to be a very close replication to
 
 \section{Extension}\label{sc:extension}
 
+Discrete groups do not always occur in nature.
+The extension covered here adds a third middle group to the experiment. 
+The middle group contains all genotypes in the pool in the same proportions.
+As before, an individual may only exist in one group. 
+If it is in a middle group, then it cannot be in a small or large group.
+
+The main parameters remain unchanged (apart from the number of generations, which was incresed to 200) from \cite{powers2007individual}.
+This experiment set out to find when, if at all, the small cooperators were out competed by another genotype.
+It is predicted that the large selfish genotype will take advantage of this middle group once a large enough proporiton of the population is placed in this.
+
+NEED TO CITE SOME STUFF.
+
+
+
+%why I am doing this extension
+
+%my parameters
+Some extra parameters were added to characterise the middle group. 
+The size of this group, and the resources allocated, was made to be the average of the small and large group's size and resources. 
+This was done to keep the same amount of resource per captia in the group.
+The final parameter was the parameter under test - the proportion of the population that was placed in the medium sized group.
+The parameters are summarised in table \ref{table:extparams}. 
+
+\begin{table}
+ \caption{The extra parameters used to implement the extension}
+ \label{table:extparams}
+ \begin{tabular}{|c|c|}
+  Parameter, $symbol$ & value \\ \hline 
+  Proportion of population in middle group, $M_{proportion}$ & $0.0 - 0.24$ \\ 
+  Medium group size, $N_{med}$ & $22$ \\
+  Medium group resource, $R_{med}$ & $27$ \\ \hline
+ \end{tabular}
+\end{table}
+
+
 \section{Results}\label{sc:results}
+
+A sweep of the middle proportions was done from $0$ to $0.24$. 
+At each value of $M_{proportion}$, the simulation was run 10 times.
+After each simulation, the genotype with the largest population was deemed to be the `winner' and a tally was kept. 
+The number of wins of each genotype was plotted against the value of $M_{proportion}$ and can be seen in figure \ref{fig:extresult}.
+
+The results show that the small cooperators win consistently until around $0.03$. 
+From this point, the selfish large genotype starts to win some of the simulations. 
+By $0.06$, large selfish starts to win the majority of the simulations.
+
+Both small groups win the occasional game in the higher proportions. 
+This is assumed to be noise as no explicit checking was done to verify the populations had reached fixation. 
+
+\begin{figure}
+ \centering
+ \includegraphics{Code2/extresults.png}
+ \caption{A sweep of the proportion of the population allocated into medium sized groups.}
+ \label{fig:extresult}
+\end{figure}
+
 
 \section{Conclusion}\label{sc:conclusion}
 
+What I have done
 
+What I have shown
+
+Further work - make it continuous
+However, this work still discretises the groups. Future work could improve this to have more groups, or even implement groups of many different sizes.
 \bibliographystyle{apalike}
 \bibliography{bibliography}
  
