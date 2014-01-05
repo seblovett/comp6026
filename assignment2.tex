@@ -19,19 +19,23 @@ A basic example of this is the Prisoner's Dilemma \cite{}.
 However, in nature, cooperation is common. 
 This then raises the question of why cooperation exists. 
 
-In \cite{powers2007individual}, a situation was set up with individuals that are selfish and cooperative. 
+In \cite{powers2007individual}, a situation was set up with selfish and cooperative individuals.
 Each individual also has a preference of being in a small or large group. 
 Resources were allocated to the groups and the population increased depending on the amount of resources the genotype had. 
 Selfish individuals had a higher growth, but higher consumption of the resource than the cooperative.
 A small group had less resources per captia than the large group.
 
+In each generation, the pool was split into as many small and large groups as possible and allocated resources.
+The numbers of the genotypes were then allowed to grow. 
+
 By doing this, it was shown that the genotype of small cooperators flourished and became the only genotype in the population. 
+
 
 %Describe paper/experiment.
 %Game theory game - defectors win CITE
 
 This paper discusses the reimplementation of the experiment \cite{powers2007individual} and a comparison of results in sections \ref{sc:reimplementation} and \ref{sc:reimp:results}.
-An extension to this work is covered in section \ref{sc:extension}, the results of which are shown in \ref{sc:results} and section \ref{sc:conclusion} concludes the paper.
+An extension to this work is covered in section \ref{sc:extension}, the results of which are shown in section \ref{sc:results} and section \ref{sc:conclusion} concludes the paper.
 
 
 \section{Reimplementation}\label{sc:reimplementation}
@@ -71,7 +75,7 @@ Only full groups were allowed and any members left over from group allocation we
 These groups were then allocated resources and allowed to grow. 
 
 %Resource equation \& explanation
-Resources were allocated to each genotype propotionatly, depending on their genotype.
+Resources were allocated to each genotype propotionatly,The assumed knowledge is difficult to gauge given the amount depending on their genotype.
 This was done using equation \eqref{eq:resource}. 
 It is biased to allocate more resource to the selfish genotype ($0.02 \times 0.2 > 0.018 \times 0.1$). 
 R also changes depending on the group size - small groups have limited resources to encourage cooperation, and large groups have more resource per captia.
@@ -84,7 +88,7 @@ R also changes depending on the group size - small groups have limited resources
 Once the resources are allocated, the groups are then grown. 
 The new population size is calculated by three terms, seen in equation \ref{eq:growth}. 
 The first is the current size and the third is a constant death rate to all genotypes.
-The middle term uses the resouces allocated and the consumption rate of the genotype.
+The middle term uses the resources allocated and the consumption rate of the genotype.
 As the consumption for a cooperative genotype is lower, this is biased to grow the cooperators more.
 \begin{equation}
  n_i (t + 1) = n_i (t) + \frac{r_i}{C_i} - K.n_i (t)
@@ -122,7 +126,7 @@ As the consumption for a cooperative genotype is lower, this is biased to grow t
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.4\textwidth}
                 \includegraphics[width=0.4\textwidth]{Code2/fig1.png}
-                \caption{Reproduced results}
+                \caption{Reproduced results.}
                 \label{fig:orig:B}
         \end{subfigure}
         \caption{Average environment and strategy through time.}\label{fig:A}
@@ -156,11 +160,11 @@ Both results show that the large populations reach 0 first and the selfish gene 
 
 The results obtained from the extension proved to be a very close replication to the original data, and therefore can be used for an extension of this work.
 
-\section{Extension}\ref{sc:extension}
+\section{Extension}\label{sc:extension}
 
-\section{Results}\ref{sc:results}
+\section{Results}\label{sc:results}
 
-\section{Conclusion}\ref{sc:conclusion}
+\section{Conclusion}\label{sc:conclusion}
 
 
 \bibliographystyle{apalike}
