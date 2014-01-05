@@ -219,15 +219,55 @@ This is assumed to be noise as no explicit checking was done to verify the popul
  \label{fig:extresult}
 \end{figure}
 
+The graphs in figure \ref{fig:ext:manyresults} show some of the populations in some of the simulations. 
+The two graphs, \ref{fig:ext:6:c} and \ref{fig:ext:6:s} show two different outcomes for the same $M_{proportion}$ value. 
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{Code2/mprop_05.png}
+                \caption{Middle Proporiton = 0.05}
+                \label{fig:rep:5}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{Code2/mprop_06.png}
+                \caption{Middle Proporiton = 0.06 where the small cooperative wins.}
+                \label{fig:ext:6:c}
+        \end{subfigure}
+        
+        \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{Code2/mprop_06_selfish.png}
+                \caption{Middle Proporiton = 0.06 where the large selfish wins.}
+                \label{fig:ext:6:s}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[b]{0.4\textwidth}
+                \includegraphics[width=\textwidth]{Code2/mprop_24.png}
+                \caption{Middle Proporiton = 0.24. The large selfish genotype wins outright.}
+                \label{fig:ext:24}
+        \end{subfigure}
+        \caption{Proporiton of genotypes in simulations with varying proportions in the middle group.}\label{fig:ext:manyresults}
+\end{figure}
 
 \section{Conclusion}\label{sc:conclusion}
 
 What I have done
+This paper covered the reimplementation of the work in \cite{powers2007individual}. 
+The implemented code was then shown to match the results expected and this then provided a platform to extend this work. 
+The extension investigated set out look at creating more groups as a step towards making a fully continuous simulation.
+This was done by adding a middle group, for all genotypes being able to be a part of. 
+A proporiton of the pool was then allocated into these middle sized groups before allocating to the small and large sized groups.
 
-What I have shown
+It was predicted that the selfish gene would eventually take over the population as it would make use of being a defector in the middle sized group. 
+This was found to be correct, as at about 0.06\% of the population in the middle group, the selfish genotype won the majority of the simulations.
 
-Further work - make it continuous
-However, this work still discretises the groups. Future work could improve this to have more groups, or even implement groups of many different sizes.
+%Further work - make it continuous
+However, this work still discretises the groups. 
+Future work could improve this to have more groups, or even implement groups of many different sizes.
+
+
 \bibliographystyle{apalike}
 \bibliography{bibliography}
  
