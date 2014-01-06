@@ -1,5 +1,5 @@
 \documentclass[11pt]{ecsarticle}
-%\usepackage[nodayofweek]{datetime}
+\usepackage[nodayofweek]{datetime}
 \usepackage{natbib} 
 \usepackage{graphicx}
 %\usepackage{caption}
@@ -19,22 +19,22 @@ Group selection encounters many problems, one of which is that selfish behaviour
 Selfish behaiour is overall detrimental to a group.
 The Prisoner's dilemma is an example of how selfish behaviour benefits an individual \citep{axelrod1987evolution}. 
 However, in nature, cooperation is common \citep{szathmary1995major}. 
-This then raises the question of why cooperation exists. 
+This then raises the question as to why cooperation exists. 
 
 In \cite{powers2007individual}, a situation was set up with selfish and cooperative individuals.
 Each individual also has a preference of being in a small or large group. 
-Resources were allocated to the groups and the population increased depending on the amount of resources the genotype had. 
-Selfish individuals had a higher growth, but higher consumption of the resource than the cooperative.
-A small group had less resources per captia than the large group.
+Resources were allocated to the groups and the population increased depending on the amount of resource the genotype had. 
+Selfish individuals had a higher growth, however had a higher consumption of the resource than the cooperative.
+A small group had less resource per captia than a large group.
 
 In each generation, the pool was split into as many small and large groups as possible and allocated resources.
-The numbers of the genotypes were then allowed to grow. 
+The numbers of genotypes were then allowed to grow. 
 This method has been shown by \cite{wilson1975theory} to purge selfish individuals. 
 \cite{powers2007individual} showed that the genotype of small cooperators flourished and became the only genotype in the population. 
 
 
 This paper discusses the reimplementation of the experiment \cite{powers2007individual} and a comparison of results in sections \ref{sc:reimplementation} and \ref{sc:reimp:results}.
-An extension to this work is covered in section \ref{sc:extension}, the results of which are shown in section \ref{sc:results} and section \ref{sc:conclusion} concludes the paper.
+An extension to this work is covered in section \ref{sc:extension}, the results of which are shown in section \ref{sc:results} and section \ref{sc:conclusion} concludes the paper. All code implemented is the writer's own and can be seen in Appendix \ref{ap:code}.
 
 
 \section{Reimplementation}\label{sc:reimplementation}
@@ -80,8 +80,8 @@ To implement the experiment, the following psuedocode was used:
 
 %How individuals were represented
 This experiment used individuals with two genotypes, giving four possible combinations of individual.
-The genotypes were whether the individual preferred small or large groups, and whether it was selfish or cooperative.
-The four possible combination therefore were: cooperative \& small, selfish \& small, cooperative \& large, selfish \& large. 
+The genotypes included whether the individual preferred small or large groups, and whether it was selfish or cooperative.
+The four possible combinations therefore were: cooperative \& small, selfish \& small, cooperative \& large, selfish \& large. 
 
 In the reimplementation, an individual was not explicitly represented. 
 Instead, a list of four values was used to store the total number of each genotype. 
@@ -110,7 +110,7 @@ $R$ also changes depending on the group size - small groups have limited resourc
 
 %Growth equation \& explanation
 Once the resources are allocated, the groups are then grown. 
-The new population size is calculated by three terms, seen in equation \ref{eq:growth}. 
+The new population size is calculated by three terms, seen in equation \eqref{eq:growth}. 
 The first is the current size and the third is a constant death rate to all genotypes.
 The middle term uses the resources allocated and the consumption rate of the genotype.
 As the consumption for a cooperative genotype is lower, this is biased to allow the cooperators to grow more quickly.
@@ -206,7 +206,7 @@ This is assumed to be noise as no explicit checking was done to verify the popul
 The graphs in figure \ref{fig:ext:manyresults} show some of the populations in some of the simulations. 
 The two graphs, \ref{fig:ext:06:c} and \ref{fig:ext:06:s} show two different outcomes for the same $M_{proportion}$ value. 
 
-\begin{figure}[ht]
+\begin{figure}
 \centering     %%% not \center
 \subfigure[Middle Proportion = 0.05]{\label{fig:ext:5}\includegraphics[width=0.45\textwidth]{Code2/mprop_05.png}}
 \subfigure[Middle Proportion = 0.06 where the small cooperative wins.]{\label{fig:ext:06:c}\includegraphics[width=0.45\textwidth]{Code2/mprop_06.png}}
@@ -231,9 +231,10 @@ This was found to be correct, as at about 0.06\% of the population in the middle
 
 %Further work - make it continuous
 However, this work still creates discrete groups. 
-Future work could improve this to have more groups, or even implement groups of many different sizes.
+Future work could improve this by having more groups, or even implementing groups of many different sizes.
 Also, in this experiment, the individuals are not treated differently depending on their group size preference in the middle group.
 More investigation could also be done into this.
+
 \backmatter
 
 \bibliographystyle{apalike}
@@ -241,7 +242,7 @@ More investigation could also be done into this.
  \appendix
  \clearpage
 
- \section{Code}
+ \section{Code}\label{ap:code}
 
  
 \definecolor{Code}{rgb}{0,0,0}
