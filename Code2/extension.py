@@ -147,7 +147,7 @@ def Test():
 	raw_input()
 	pass
 ## @brief runs the GA with the parameters set
-def Run():
+def Run(ShowGraph = False):
 	#initialise an equally distributed population
 	InitWrite()
 	pool = list()
@@ -241,7 +241,8 @@ def Run():
 		#print("Pool Size after scale = %d" % sum(pool))
 		
 	#end for T
-	PlotAll()
+	if ShowGraph:
+		PlotAll()
 	#print("DONE!")
 	winner = max(pool)#return the winner
 	for i in range(len(pool)):
@@ -250,13 +251,19 @@ def Run():
 	raise Exception("No winner found...")
 
 if "__main__" == __name__:
+	#Run control experiiment
+	print("Running Control Experiment...")
+	global M_Proportion
+	M_Proportion = 0
+	Run(ShowGraph=True)
+	
+	print("Running Extension Experiment...")
 	result_filename = "results_" +  time.strftime("%Y_%m_%d_%H%M") + ".txt"
 	print result_filename
 	res_file = open(result_filename, 'w')
 	res_file.write("M_Prop,CS,CL,SS,SL\n")
 	results = list()
-	proportions = range(100)
-	global M_Proportion
+	proportions = range(25)
 	for i in range(len(proportions)):
 		proportions[i] /= 100.0
 	print proportions
