@@ -4,19 +4,20 @@
 \usepackage{graphicx}
 %\usepackage{caption}
 %\usepackage{subcaption}
-
-
+\usepackage{color}
+\usepackage{listings}
 
 \title{COMP6026 - Assignment 2 - Group Selection}
 \authors{Henry Lovett - hl13g10}
+\addresses{School of Electronics and Computer Science,\\Faculty of Physics and Applied Sciences,\\University of Southampton}
 \begin{document}
 \maketitle
  
 \section{Introduction}
 
-Group selection encounters many problems, one of which is that selfish behaviour is more commonly prefered \cite{powers2012efficacy}.
+Group selection encounters many problems, one of which is that selfish behaviour is more commonly prefered \citep{powers2012efficacy}.
 Selfish behaiour is overall detrimental to a group.
-The Prisoner's dilemma is an example of how selfish behaviour benefits an individual \cite{axelrod1987evolution}. 
+The Prisoner's dilemma is an example of how selfish behaviour benefits an individual \citep{axelrod1987evolution}. 
 However, in nature, cooperation is common \citep{szathmary1995major}. 
 This then raises the question of why cooperation exists. 
 
@@ -67,9 +68,9 @@ To implement the experiment, the following psuedocode was used:
   Cooperative growth rate, $G_c$	&	$0.018$		\\ 
   Selfish growth rate, $G_s$		&	$0.02$		\\ 
   Population size, $N$			&	$4000$		\\ 
-  Small group size, $N\_small$		&	$4$		\\ 
-  Large group size, $N\_large$		&	$40$		\\ 
-  Number of generations, $N$		&	$120$		\\ 
+  Small group size, $N_{small}$	&	$4$		\\ 
+  Large group size, $N_{large}$	&	$40$		\\ 
+  Number of generations, $T$		&	$120$		\\ 
   Number of timesteps, $t$		&	$4$		\\ 
   Resource for small groups, $R_{small}$&	$4$		\\ 
   Resource for large groups, $R_{large}$&	$50$		\\ 
@@ -86,20 +87,22 @@ In the reimplementation, an individual was not explicitly represented.
 Instead, a list of four values was used to store the total number of each genotype. 
 This was used for both the migrant pool and the groups. 
 
-Initialisation was done exactly proportionately. Each genotype was assigned $N / 4$ number of individuals.
+Initialisation was done exactly proportionately. 
+Each genotype was assigned $\tfrac{N}{4}$ number of individuals.
+This was done so that no single genotype would gain an initial advantage from the beginning.
 
 %Group allocation
-During each generation, the migrant pool was split down into as many small groups as possible.
-Individuals were split into either small or large groups depending on their preference in their genotype.
+During each generation, the migrant pool was split down into as many small and large groups as possible.
+Individuals were split into groups depending on their preference in their genotype.
 Groups were made to represent the proportions of the global migrant pool. 
 Only full groups were allowed and any members left over from group allocation were removed from the population. 
 These groups were then allocated resources and allowed to grow. 
 
 %Resource equation \& explanation
-Resources were allocated to each genotype proportionately,The assumed knowledge is difficult to gauge given the amount depending on their genotype.
+Resources were allocated to each genotype proportionately depending on their genotype.
 This was done using equation \eqref{eq:resource}. 
-It is biased to allocate more resource to the selfish genotype ($0.02 \times 0.2 > 0.018 \times 0.1$). 
-R also changes depending on the group size - small groups have limited resources to encourage cooperation, and large groups have more resource per captia.
+It is biased to allocate more resource to the selfish genotype ( [$0.02 \times 0.2] > [0.018 \times 0.1]$). 
+$R$ also changes depending on the group size - small groups have limited resources to encourage cooperation, and large groups have more resource per captia, which encourages the selfish population.
 \begin{equation}
  r_i = \frac{ n_i . G_i . C_i }{\sum\limits_j (n_j . G_j . C_j )} . R 
  \label{eq:resource}
@@ -110,7 +113,7 @@ Once the resources are allocated, the groups are then grown.
 The new population size is calculated by three terms, seen in equation \ref{eq:growth}. 
 The first is the current size and the third is a constant death rate to all genotypes.
 The middle term uses the resources allocated and the consumption rate of the genotype.
-As the consumption for a cooperative genotype is lower, this is biased to grow the cooperators more.
+As the consumption for a cooperative genotype is lower, this is biased to allow the cooperators to grow more quickly.
 \begin{equation}
  n_i (t + 1) = n_i (t) + \frac{r_i}{C_i} - K.n_i (t)
  \label{eq:growth}
@@ -120,18 +123,19 @@ As the consumption for a cooperative genotype is lower, this is biased to grow t
 
 \section{Comparison of results}\label{sc:reimp:results}
 
-\begin{figure}
-\centering     %%% not \center
-\subfigure[The original results from \cite{powers2007individual}.]{\label{fig:orig:A}\includegraphics[width=0.45\textwidth]{orig_a.png}}
-\subfigure[Reproduced results.]{\label{fig:rep:A}\includegraphics[width=0.45\textwidth]{Code2/fig2.png}}
-\caption{Average environment and strategy through time.}\label{fig:A}
-\end{figure}
 
-\begin{figure}
+
+\begin{figure}[b]
 \centering     %%% not \center
 \subfigure[The original results from \cite{powers2007individual}.]{\label{fig:orig:B}\includegraphics[width=0.45\textwidth]{orig_b.png}}
 \subfigure[Reproduced results.]{\label{fig:rep:B}\includegraphics[width=0.45\textwidth]{Code2/fig1.png}}
 \caption{Change in genotype frequencies over time.}\label{fig:B}
+\end{figure}
+\begin{figure}[b]
+\centering     %%% not \center
+\subfigure[The original results from \cite{powers2007individual}.]{\label{fig:orig:A}\includegraphics[width=0.45\textwidth]{orig_a.png}}
+\subfigure[Reproduced results.]{\label{fig:rep:A}\includegraphics[width=0.45\textwidth]{Code2/fig2.png}}
+\caption{Average environment and strategy through time.}\label{fig:A}
 \end{figure}
 
 The reproduced results were found to be very close to the original data. 
@@ -202,12 +206,12 @@ This is assumed to be noise as no explicit checking was done to verify the popul
 The graphs in figure \ref{fig:ext:manyresults} show some of the populations in some of the simulations. 
 The two graphs, \ref{fig:ext:06:c} and \ref{fig:ext:06:s} show two different outcomes for the same $M_{proportion}$ value. 
 
-\begin{figure}
+\begin{figure}[h]
 \centering     %%% not \center
 \subfigure[Middle Proportion = 0.05]{\label{fig:ext:5}\includegraphics[width=0.45\textwidth]{Code2/mprop_05.png}}
 \subfigure[Middle Proportion = 0.06 where the small cooperative wins.]{\label{fig:ext:06:c}\includegraphics[width=0.45\textwidth]{Code2/mprop_06.png}}
 \subfigure[Middle Proportion = 0.06 where the large selfish wins.]{\label{fig:ext:06:s}\includegraphics[width=0.45\textwidth]{Code2/mprop_06_selfish.png}}
-\subfigure[Middle Proportion = 0.24. The large selfish genotype wins outright.]{\label{fig:ext:24}\includegraphics[width=0.45\textwidth]{Code2/mprop_05.png}}
+\subfigure[Middle Proportion = 0.24. The large selfish genotype wins outright.]{\label{fig:ext:24}\includegraphics[width=0.45\textwidth]{Code2/mprop_24.png}}
 \caption{Proportion of genotypes in simulations with varying proportions in the middle group.}\label{fig:ext:manyresults}
 \end{figure}
 
@@ -228,17 +232,74 @@ This was found to be correct, as at about 0.06\% of the population in the middle
 %Further work - make it continuous
 However, this work still creates discrete groups. 
 Future work could improve this to have more groups, or even implement groups of many different sizes.
-
+Also, in this experiment, the individuals are not treated differently depending on their group size preference in the middle group.
+More investigation could also be done into this.
+\backmatter
 
 \bibliographystyle{apalike}
 \bibliography{bibliography}
+ \appendix
+ \clearpage
+
+ \section{Code}
+
+ 
+\definecolor{Code}{rgb}{0,0,0}
+\definecolor{Decorators}{rgb}{0.5,0.5,0.5}
+\definecolor{Numbers}{rgb}{0.5,0,0}
+\definecolor{MatchingBrackets}{rgb}{0.25,0.5,0.5}
+\definecolor{Keywords}{rgb}{0,0,1}
+\definecolor{self}{rgb}{0,0,0}
+\definecolor{Strings}{rgb}{0,0.63,0}
+\definecolor{Comments}{rgb}{0,0.63,1}
+\definecolor{Backquotes}{rgb}{0,0,0}
+\definecolor{Classname}{rgb}{0,0,0}
+\definecolor{FunctionName}{rgb}{0,0,0}
+\definecolor{Operators}{rgb}{0,0,0}
+\definecolor{Background}{rgb}{1,1,1}
+\lstset{
+    numbers=left,
+    numberstyle=\footnotesize,
+    numbersep=1em,
+    xleftmargin=1em,
+    framextopmargin=2em,
+    framexbottommargin=2em,
+    showspaces=false,
+    showtabs=false,
+    showstringspaces=false,
+    frame=l,
+    tabsize=4,
+    % Basic
+    basicstyle=\ttfamily\small\setstretch{1},
+    backgroundcolor=\color{Background},
+    language=Python,
+    % Comments
+    commentstyle=\color{Comments}\slshape,
+    % Strings
+    stringstyle=\color{Strings},
+    morecomment=[s][\color{Strings}]{"""}{"""},
+    morecomment=[s][\color{Strings}]{'''}{'''},
+    % keywords
+    morekeywords={import,from,class,def,for,while,if,is,in,elif,else,not,and,or,print,break,continue,return,True,False,None,access,as,,del,except,exec,finally,global,import,lambda,pass,print,raise,try,assert},
+    keywordstyle={\color{Keywords}\bfseries},
+    % additional keywords
+    morekeywords={[2]@invariant},
+    keywordstyle={[2]\color{Decorators}\slshape},
+    emph={self},
+    emphstyle={\color{self}\slshape},
+    breaklines=true
+%
+}
+%procnamekeys={def,class},
+ \subsection{main.py}
+\lstinputlisting[language=Python]{Code2/main.py}
+
+ \subsection{main.py}
+ \lstinputlisting[language=Python,caption=Reimplementation of \cite{powers2007individual}]{Code2/extension.py}
+
+
  
 
 
- \clearpage
- \section{Code}
- \lstset{language=Python} 
- \subsection{main.py}
- \lstinputlisting[language=Python,caption=Reimplementation of \cite{powers2007individual}]{Code2/main.py}
 
 \end{document}
